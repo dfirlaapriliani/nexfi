@@ -13,7 +13,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Pengguna\AiController;
 use App\Http\Controllers\KebijakanController;
-use App\Http\Controllers\LeaderboardController; // ← baru
+use App\Http\Controllers\LeaderboardController; 
+use App\Http\Controllers\Pengguna\BlogController;
 
 // Kebijakan & Privasi
 Route::get('/kebijakan-privasi', [KebijakanController::class, 'index'])->name('kebijakan.index');
@@ -137,6 +138,10 @@ Route::middleware(['auth', 'role:pengguna'])
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-    });
+        // Blog 
+        // Blog GrowFin
+        Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+        Route::get('/blog/visit/{slug}', [BlogController::class, 'visit'])->name('blog.visit');
+        });
 
 require __DIR__.'/auth.php';

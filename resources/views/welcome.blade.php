@@ -82,22 +82,240 @@
     .inp-dark[readonly]:focus { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.09); box-shadow:none; }
     .section-divider { height:1px; background:linear-gradient(90deg,transparent,rgba(108,99,255,0.3),transparent); }
 
-    /* ===== YOUTUBE / PDF CARD ===== */
-    .yt-thumb { position:relative; cursor:pointer; display:block; width:100%; overflow:hidden; aspect-ratio:16/9; }
-    .yt-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
-    .yt-thumb:hover img { transform:scale(1.03); }
-    .yt-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(10,5,30,0.45); transition:background 0.3s ease; }
-    .yt-thumb:hover .yt-play { background:rgba(10,5,30,0.3); }
-    .yt-play div { width:64px; height:64px; border-radius:50%; background:rgba(108,99,255,0.9); border:2px solid rgba(167,139,250,0.5); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.4rem; box-shadow:0 8px 30px rgba(108,99,255,0.4); transition:transform 0.2s,background 0.2s; }
-    .yt-thumb:hover .yt-play div { transform:scale(1.1); background:rgba(124,58,237,1); }
+    /* ===== PDF CARD ===== */
+    .pdf-thumb { position:relative; cursor:pointer; display:block; width:100%; overflow:hidden; aspect-ratio:16/9; }
+    .pdf-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease; }
+    .pdf-thumb:hover img { transform:scale(1.03); }
+    .pdf-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(10,5,30,0.45); transition:background 0.3s ease; }
+    .pdf-thumb:hover .pdf-play { background:rgba(10,5,30,0.3); }
+    .pdf-play div { width:64px; height:64px; border-radius:50%; background:rgba(108,99,255,0.9); border:2px solid rgba(167,139,250,0.5); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.4rem; box-shadow:0 8px 30px rgba(108,99,255,0.4); transition:transform 0.2s,background 0.2s; }
+    .pdf-thumb:hover .pdf-play div { transform:scale(1.1); background:rgba(124,58,237,1); }
 
-    /* ===== VIDEO MODAL ===== */
-    .vmodal { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px; }
-    .vmodal.open { display:flex; }
-    .vmodal-inner { position:relative; width:100%; max-width:800px; background:#0e0f20; border-radius:18px; border:1px solid rgba(108,99,255,0.25); padding:12px; box-shadow:0 24px 80px rgba(0,0,0,0.7); }
-    .vmodal-inner iframe { width:100%; aspect-ratio:16/9; border:none; border-radius:10px; display:block; }
-    .vmodal-close { position:absolute; top:-14px; right:-14px; width:34px; height:34px; border-radius:50%; background:#1a1b2e; border:1px solid rgba(255,255,255,0.15); color:#fff; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; z-index:10; }
-    .vmodal-close:hover { background:rgba(239,68,68,0.4); }
+    /* ===== PDF MODAL - REDESIGNED ===== */
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+    .pdf-modal.open { display: flex; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    .pdf-modal-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 1100px;
+      max-height: 95vh;
+      background: #0e0f20;
+      border-radius: 20px;
+      border: 1px solid rgba(108, 99, 255, 0.25);
+      box-shadow: 
+        0 0 0 1px rgba(108, 99, 255, 0.1),
+        0 30px 80px rgba(0, 0, 0, 0.8),
+        0 0 100px rgba(108, 99, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Modal Header */
+    .pdf-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(108, 99, 255, 0.15);
+      flex-shrink: 0;
+      background: rgba(108, 99, 255, 0.03);
+    }
+    
+    .pdf-modal-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    .pdf-modal-title i {
+      color: #6c63ff;
+      font-size: 1.1rem;
+    }
+    
+    .pdf-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .pdf-modal-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+    
+    .pdf-modal-btn:hover {
+      background: rgba(108, 99, 255, 0.15);
+      border-color: rgba(108, 99, 255, 0.3);
+      color: #fff;
+    }
+    
+    .pdf-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.08);
+      color: rgba(239, 68, 68, 0.6);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+    
+    .pdf-modal-close:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+    
+    /* PDF Container */
+    .pdf-modal-body {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #0a0b18;
+    }
+    
+    .pdf-modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    
+    /* Loading State */
+    .pdf-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #0a0b18;
+    }
+    
+    .pdf-loading-spinner {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid rgba(108, 99, 255, 0.15);
+      border-top-color: #6c63ff;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .pdf-loading-text {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 500;
+    }
+    
+    /* Footer */
+    .pdf-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-top: 1px solid rgba(108, 99, 255, 0.1);
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.25);
+      background: rgba(108, 99, 255, 0.02);
+    }
+    
+    .pdf-modal-footer i {
+      color: rgba(108, 99, 255, 0.4);
+      font-size: 0.65rem;
+    }
+    
+    /* ===== MOBILE PDF MODAL ===== */
+    @media (max-width: 767px) {
+      .pdf-modal {
+        padding: 0;
+        align-items: stretch;
+      }
+      
+      .pdf-modal-inner {
+        border-radius: 0;
+        max-height: 100vh;
+        height: 100%;
+        border: none;
+        animation: none;
+      }
+      
+      .pdf-modal-header {
+        padding: 12px 16px;
+        border-radius: 0;
+      }
+      
+      .pdf-modal-title {
+        font-size: 0.82rem;
+      }
+      
+      .pdf-modal-body {
+        /* Portrait orientation for mobile */
+        aspect-ratio: auto;
+      }
+      
+      .pdf-modal-body iframe {
+        /* Allow natural PDF scrolling on mobile */
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+    
+    /* Tablet */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .pdf-modal-inner {
+        max-width: 95vw;
+        max-height: 90vh;
+      }
+    }
 
     /* ===== TESTI SLIDER ===== */
     .testi-track { display:flex; gap:24px; transition:transform 0.42s cubic-bezier(0.4,0,0.2,1); align-items:stretch; }
@@ -123,14 +341,12 @@
       #aboutBottom { grid-template-columns:1fr !important; gap:24px !important; }
       #ytCardWrap  { justify-content:center; }
       #youtubeCard { max-width:460px; }
-      .yt-play div { width:52px; height:52px; font-size:1.2rem; }
+      .pdf-play div { width:52px; height:52px; font-size:1.2rem; }
       .testi-track { gap:16px; }
       .testi-slide { flex:0 0 100%; }
       .form-grid     { grid-template-columns:1fr !important; }
       .form-grid > * { grid-column:1 !important; }
       .btn-kirim     { grid-column:1 !important; }
-      .vmodal        { padding:12px; }
-      .vmodal-inner  { max-width:100%; }
       .hero-btns     { flex-direction:column; align-items:stretch; }
       .hero-btns a   { justify-content:center !important; }
     }
@@ -291,15 +507,15 @@
       <!-- PDF Card -->
       <div id="ytCardWrap" class="flex justify-center items-start">
         <div id="youtubeCard" class="w-full rounded-[22px] overflow-hidden" style="border:1px solid rgba(108,99,255,0.2);box-shadow:0 16px 60px rgba(108,99,255,0.15);background:#0c0d1d;">
-          <div class="yt-thumb" id="openVideo">
+          <div class="pdf-thumb" id="openPdf">
             <img src="{{ asset('assets_public/bg guide.png') }}" alt="Guidebook NexFi">
-            <div class="yt-play">
+            <div class="pdf-play">
               <div><i class="fa-solid fa-book-open" style="margin-left:2px;"></i></div>
             </div>
           </div>
           <div class="p-5 pb-6">
             <p class="text-[0.88rem] leading-[1.6] mb-4" style="color:var(--muted2);">Lihat langsung bagaimana NexFi membantu kamu mengelola keuangan dengan lebih cerdas dan efisien.</p>
-            <button class="yt-btn flex items-center justify-center gap-2 text-white font-bold px-3 py-3 rounded-full w-full text-[0.9rem] border-none cursor-pointer font-inter" id="openVideoBtn" style="background:linear-gradient(135deg,#6c63ff,#9b59f5);box-shadow:0 8px 24px rgba(108,99,255,0.35);transition:opacity 0.2s,transform 0.15s;" onmouseover="this.style.opacity='0.88';this.style.transform='translateY(-1px)'" onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+            <button class="flex items-center justify-center gap-2 text-white font-bold px-3 py-3 rounded-full w-full text-[0.9rem] border-none cursor-pointer font-inter" id="openPdfBtn" style="background:linear-gradient(135deg,#6c63ff,#9b59f5);box-shadow:0 8px 24px rgba(108,99,255,0.35);transition:opacity 0.2s,transform 0.15s;" onmouseover="this.style.opacity='0.88';this.style.transform='translateY(-1px)'" onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
               <i class="fa-solid fa-file-pdf"></i> Buka Guidebook PDF
             </button>
           </div>
@@ -310,11 +526,57 @@
   </div>
 </section>
 
-<!-- PDF MODAL -->
-<div id="videoModal" class="vmodal">
-  <div class="vmodal-inner">
-    <button class="vmodal-close" id="closeModal">&times;</button>
-    <iframe id="youtubeFrame" src="" allow="autoplay" allowfullscreen></iframe>
+<!-- ===== PDF MODAL - REDESIGNED ===== -->
+<div id="pdfModal" class="pdf-modal">
+  <div class="pdf-modal-inner">
+    <!-- Header -->
+    <div class="pdf-modal-header">
+      <div class="pdf-modal-title">
+        <i class="fa-solid fa-file-pdf"></i>
+        <span>Guidebook NexFi</span>
+      </div>
+      <div class="pdf-modal-actions">
+        <!-- Fullscreen button -->
+        <button class="pdf-modal-btn" onclick="toggleFullscreen()" title="Fullscreen">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+        <!-- Download button -->
+        <a href="https://drive.google.com/file/d/1tkIY1Y_NwjYn5eFM_idOaP_M9RJtSIYD/view" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="pdf-modal-btn" 
+           title="Download PDF"
+           style="text-decoration:none;">
+          <i class="fa-solid fa-download"></i>
+        </a>
+        <!-- Close button -->
+        <button class="pdf-modal-close" id="closePdfModal" title="Tutup">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Body -->
+    <div class="pdf-modal-body">
+      <!-- Loading -->
+      <div class="pdf-loading" id="pdfLoading">
+        <div class="pdf-loading-spinner"></div>
+        <div class="pdf-loading-text">Memuat dokumen...</div>
+      </div>
+      
+      <!-- PDF Iframe -->
+      <iframe id="pdfFrame" 
+              src="" 
+              allow="autoplay"
+              allowfullscreen>
+      </iframe>
+    </div>
+    
+    <!-- Footer -->
+    <div class="pdf-modal-footer">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Dokumen resmi NexFi • Didukung oleh Google Drive</span>
+    </div>
   </div>
 </div>
 
@@ -541,9 +803,6 @@
       <div>
         <div class="text-[0.78rem] font-bold uppercase tracking-widest mb-3" style="color:rgba(255,255,255,0.3);">Kontak</div>
         <div class="flex flex-col gap-2">
-          <a href="mailto:support@nexfi.id" class="flex items-center gap-2 text-[0.85rem] no-underline transition-colors" style="color:rgba(255,255,255,0.4);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
-            <i class="fa-solid fa-envelope text-[0.75rem]"></i> support@nexfi.id
-          </a>
           <a href="https://wa.me/62895404171275" target="_blank" class="flex items-center gap-2 text-[0.85rem] no-underline transition-colors" style="color:rgba(255,255,255,0.4);" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
             <i class="fa-brands fa-whatsapp text-[0.75rem]"></i> +62 895-4041-7275
           </a>
@@ -772,25 +1031,76 @@ function handleSubmitKoran(btn) {
   buildDots();
 })();
 
-/* ===== PDF MODAL ===== */
-var vmodal = document.getElementById('videoModal');
-var vframe = document.getElementById('youtubeFrame');
-var PDF_EMBED_URL = 'https://drive.google.com/file/d/1tkIY1Y_NwjYn5eFM_idOaP_M9RJtSIYD/preview';
-function openVideo() {
-  vmodal.classList.add('open');
-  vframe.src = PDF_EMBED_URL;
+/* ===== PDF MODAL - REDESIGNED ===== */
+const PDF_EMBED_URL = 'https://drive.google.com/file/d/1tkIY1Y_NwjYn5eFM_idOaP_M9RJtSIYD/preview';
+const pdfModal = document.getElementById('pdfModal');
+const pdfFrame = document.getElementById('pdfFrame');
+const pdfLoading = document.getElementById('pdfLoading');
+
+function openPdf() {
+  pdfModal.classList.add('open');
+  pdfFrame.src = PDF_EMBED_URL;
+  pdfLoading.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  
+  // Hide loading when PDF is loaded
+  pdfFrame.onload = function() {
+    setTimeout(function() {
+      pdfLoading.style.display = 'none';
+    }, 800);
+  };
 }
-function closeVideo() {
-  vmodal.classList.remove('open');
-  vframe.src = '';
+
+function closePdf() {
+  pdfModal.classList.remove('open');
+  pdfFrame.src = '';
+  pdfLoading.style.display = 'flex';
   document.body.style.overflow = '';
 }
-document.getElementById('openVideo').addEventListener('click', openVideo);
-document.getElementById('openVideoBtn').addEventListener('click', openVideo);
-document.getElementById('closeModal').addEventListener('click', closeVideo);
-vmodal.addEventListener('click', function(e) { if (e.target === vmodal) closeVideo(); });
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeVideo(); });
+
+function toggleFullscreen() {
+  const inner = document.querySelector('.pdf-modal-inner');
+  if (!document.fullscreenElement) {
+    if (inner.requestFullscreen) {
+      inner.requestFullscreen();
+    } else if (inner.webkitRequestFullscreen) {
+      inner.webkitRequestFullscreen();
+    } else if (inner.msRequestFullscreen) {
+      inner.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+}
+
+// Event listeners
+document.getElementById('openPdf').addEventListener('click', openPdf);
+document.getElementById('openPdfBtn').addEventListener('click', openPdf);
+document.getElementById('closePdfModal').addEventListener('click', closePdf);
+pdfModal.addEventListener('click', function(e) { 
+  if (e.target === pdfModal) closePdf(); 
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if (!pdfModal.classList.contains('open')) return;
+  
+  if (e.key === 'Escape') {
+    closePdf();
+  } else if (e.key === 'f' || e.key === 'F') {
+    // Prevent typing 'f' in inputs
+    if (document.activeElement === document.body) {
+      e.preventDefault();
+      toggleFullscreen();
+    }
+  }
+});
 </script>
 </body>
 </html>

@@ -112,9 +112,7 @@
     border-color: rgba(239,68,68,0.25);
   }
 
-  #ai-greeting { display: none !important; }
-
-  /* ── CHAT BOX ── */
+  /* ── CHAT BOX WITH BLUR ── */
   #chat-box {
     flex: 1;
     overflow-y: auto;
@@ -128,13 +126,95 @@
     scroll-behavior: smooth;
     will-change: scroll-position;
     -webkit-overflow-scrolling: touch;
+    position: relative;
   }
   #chat-box::-webkit-scrollbar { width: 4px; }
   #chat-box::-webkit-scrollbar-track { background: transparent; }
   #chat-box::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.2); border-radius: 4px; }
   #chat-box::-webkit-scrollbar-thumb:hover { background: rgba(108,99,255,0.4); }
 
-  /* ── MESSAGES ── */
+  /* ── BLUR OVERLAY ── */
+  #blur-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 8, 15, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    gap: 12px;
+    border-radius: 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  #blur-overlay .lock-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(108, 99, 255, 0.1);
+    border: 2px solid rgba(108, 99, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  #blur-overlay .lock-icon i {
+    font-size: 1.8rem;
+    color: #8b7ff5;
+  }
+
+  #blur-overlay h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  #blur-overlay p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    text-align: center;
+    max-width: 280px;
+    line-height: 1.6;
+  }
+
+  #blur-overlay .coming-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 9999px;
+    background: rgba(108, 99, 255, 0.12);
+    border: 1px solid rgba(108, 99, 255, 0.15);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  #blur-overlay .coming-badge i {
+    font-size: 0.5rem;
+    color: #fbbf24;
+  }
+
+  /* ── MESSAGES (tetap ada tapi di-blur) ── */
   .msg-row {
     display: flex; gap: 9px; align-items: flex-end;
     animation: msgIn .22s cubic-bezier(.34,1.56,.64,1);
@@ -208,31 +288,7 @@
     background: rgba(255,255,255,0.05);
   }
 
-  /* ── TYPING ── */
-  .typing-row {
-    display: flex; gap: 9px; align-items: flex-end;
-    animation: msgIn .22s ease;
-  }
-  .typing-bubble {
-    display: flex; align-items: center; gap: 5px;
-    padding: 13px 16px;
-    background: #0e1028;
-    border: 1px solid rgba(108,99,255,0.14);
-    border-radius: 16px; border-bottom-left-radius: 4px;
-  }
-  .t-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent);
-    animation: tdot 1.2s infinite ease-in-out;
-  }
-  .t-dot:nth-child(2){ animation-delay:.15s; }
-  .t-dot:nth-child(3){ animation-delay:.30s; }
-  @keyframes tdot {
-    0%,60%,100%{ transform:translateY(0); opacity:.3; }
-    30%        { transform:translateY(-6px); opacity:1; }
-  }
-
-  /* ── EMPTY STATE ── */
+  /* ── EMPTY STATE (di-blur juga) ── */
   #empty-state {
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -296,12 +352,13 @@
   .chip:active { transform: translateY(0); }
   .chip i { font-size: 0.67rem; color: #9580ff; }
 
-  /* ── INPUT ── */
+  /* ── INPUT (tetap ada tapi disabled) ── */
   #ai-input-wrap {
     background: #0c0d1d;
     border: 1px solid var(--border);
     border-top: none;
     border-radius: 0 0 18px 18px;
+    position: relative;
   }
   #ai-input-area {
     display: flex; align-items: flex-end;
@@ -320,12 +377,14 @@
     max-height: 180px; min-height: 42px;
     overflow-y: auto; line-height: 1.6;
     transition: border-color .2s, background .2s, box-shadow .2s;
+    opacity: 0.4;
+    cursor: not-allowed;
   }
-  #pesan::placeholder { color: rgba(255,255,255,0.18); }
+  #pesan::placeholder { color: rgba(255,255,255,0.15); }
   #pesan:focus {
-    border-color: rgba(108,99,255,0.5);
-    background: rgba(108,99,255,0.05);
-    box-shadow: 0 0 0 3px rgba(108,99,255,0.09);
+    border-color: rgba(108,99,255,0.2);
+    background: rgba(255,255,255,0.02);
+    box-shadow: none;
   }
   #pesan::-webkit-scrollbar { width: 3px; }
   #pesan::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.25); border-radius: 3px; }
@@ -333,105 +392,26 @@
   #send-btn {
     width: 42px; height: 42px;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none; color: #fff; font-size: 0.84rem;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    background: rgba(108,99,255,0.2);
+    border: 1px solid rgba(108,99,255,0.15);
+    color: rgba(255,255,255,0.2);
+    cursor: not-allowed;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(108,99,255,0.32);
-    transition: opacity .18s, transform .15s, box-shadow .15s;
-    position: relative; overflow: hidden;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
   }
-  #send-btn::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
-    pointer-events: none;
-  }
-  #send-btn:hover  { opacity:.88; transform:translateY(-2px); box-shadow: 0 6px 20px rgba(108,99,255,0.4); }
-  #send-btn:active { transform:translateY(0); box-shadow: 0 2px 8px rgba(108,99,255,0.2); }
-  #send-btn:disabled { opacity:.28; cursor:not-allowed; transform:none; box-shadow:none; }
+  #send-btn i { font-size: 0.84rem; }
 
   #ai-disclaimer {
     padding: 7px 16px 10px;
     text-align: center;
     font-size: 0.66rem;
-    color: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.15);
     line-height: 1.55;
   }
   #ai-disclaimer i { font-size: 0.6rem; margin-right: 3px; opacity: .65; }
-
-  /* ── CUSTOM MODAL ALERT ── */
-  #modal-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    align-items: center; justify-content: center;
-  }
-  #modal-overlay.show { display: flex; }
-
-  #modal-box {
-    background: #10132a;
-    border: 1px solid rgba(108,99,255,0.25);
-    border-radius: 18px;
-    padding: 28px 24px 22px;
-    width: 90%; max-width: 320px;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 10px;
-    animation: modalIn .2s cubic-bezier(.34,1.56,.64,1);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(108,99,255,0.1);
-  }
-  @keyframes modalIn {
-    from { opacity:0; transform:scale(0.88) translateY(12px); }
-    to   { opacity:1; transform:scale(1) translateY(0); }
-  }
-
-  .modal-icon-wrap {
-    width: 52px; height: 52px; border-radius: 15px;
-    background: rgba(239,68,68,0.1);
-    border: 1px solid rgba(239,68,68,0.2);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 4px;
-  }
-  .modal-icon-wrap i { font-size: 1.3rem; color: #f87171; }
-
-  #modal-title {
-    font-size: 0.97rem; font-weight: 800;
-    color: rgba(255,255,255,0.9);
-    margin: 0; text-align: center;
-  }
-  #modal-desc {
-    font-size: 0.78rem; color: rgba(255,255,255,0.4);
-    text-align: center; margin: 0; line-height: 1.6;
-  }
-
-  .modal-actions {
-    display: flex; gap: 8px; width: 100%; margin-top: 6px;
-  }
-  .modal-btn {
-    flex: 1; padding: 10px;
-    border-radius: 11px; border: none;
-    font-size: 0.82rem; font-weight: 700;
-    cursor: pointer; font-family: var(--font);
-    transition: all 0.17s;
-  }
-  .modal-btn.cancel {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.5);
-  }
-  .modal-btn.cancel:hover {
-    background: rgba(255,255,255,0.09);
-    color: rgba(255,255,255,0.8);
-  }
-  .modal-btn.confirm {
-    background: linear-gradient(135deg, #dc2626, #ef4444);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(239,68,68,0.25);
-  }
-  .modal-btn.confirm:hover { opacity: 0.88; transform: translateY(-1px); }
-  .modal-btn.confirm:active { transform: translateY(0); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
@@ -441,23 +421,11 @@
     #ai-input-wrap { border-radius: 0 0 13px 13px; }
     .chip { font-size: .71rem; padding: 5px 10px; }
     #pesan { font-size: 0.82rem; }
+    #blur-overlay h2 { font-size: 1.2rem; }
+    #blur-overlay .lock-icon { width: 50px; height: 50px; }
+    #blur-overlay .lock-icon i { font-size: 1.4rem; }
   }
 </style>
-
-{{-- CUSTOM MODAL --}}
-<div id="modal-overlay">
-  <div id="modal-box">
-    <div class="modal-icon-wrap">
-      <i class="fa-solid fa-trash-can"></i>
-    </div>
-    <p id="modal-title">Hapus Riwayat Chat?</p>
-    <p id="modal-desc">Semua percakapan akan dihapus permanen dan tidak bisa dikembalikan.</p>
-    <div class="modal-actions">
-      <button class="modal-btn cancel" onclick="closeModal()">Batal</button>
-      <button class="modal-btn confirm" onclick="confirmClear()">Hapus</button>
-    </div>
-  </div>
-</div>
 
 <div id="ai-wrap">
 
@@ -474,16 +442,15 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="ai-header-btn" onclick="clearChat()" title="Hapus riwayat chat">
-        <i class="fa-solid fa-trash-can"></i>
+      <button class="ai-header-btn" onclick="alert('AI NexFi sedang dalam masa perbaikan. Mohon bersabar!')" title="Info">
+        <i class="fa-solid fa-info-circle"></i>
       </button>
     </div>
   </div>
 
-  <div id="ai-greeting" data-name="{{ $user->name }}" style="display:none"></div>
-
-  {{-- CHAT BODY --}}
+  {{-- CHAT BOX WITH BLUR OVERLAY --}}
   <div id="chat-box">
+    <!-- Empty state (tetap ada, tapi di-blur) -->
     <div id="empty-state">
       <div class="es-greeting">
         <div class="g-icon"><i class="fa-solid fa-hand-point-right"></i></div>
@@ -493,272 +460,58 @@
       <h4>Mulai percakapan</h4>
       <p>Tanyakan apa saja tentang keuangan atau cara menggunakan NexFi.</p>
       <div class="chips">
-        <button class="chip" onclick="kirimChip('Berapa saldo saya saat ini?')">
+        <button class="chip" onclick="alert('Fitur sedang dalam perbaikan')">
           <i class="fa-solid fa-wallet"></i> Saldo saya
         </button>
-        <button class="chip" onclick="kirimChip('Analisa kondisi keuangan saya')">
+        <button class="chip" onclick="alert('Fitur sedang dalam perbaikan')">
           <i class="fa-solid fa-chart-pie"></i> Analisa keuangan
         </button>
-        <button class="chip" onclick="kirimChip('Berikan tips hemat uang')">
+        <button class="chip" onclick="alert('Fitur sedang dalam perbaikan')">
           <i class="fa-solid fa-lightbulb"></i> Tips hemat
         </button>
-        <button class="chip" onclick="kirimChip('Cara mencatat pengeluaran di Nexfi')">
+        <button class="chip" onclick="alert('Fitur sedang dalam perbaikan')">
           <i class="fa-solid fa-book-open"></i> Cara pakai Nexfi
         </button>
       </div>
     </div>
+
+    {{-- BLUR OVERLAY --}}
+    <div id="blur-overlay">
+      <div class="lock-icon">
+        <i class="fa-solid fa-robot"></i>
+      </div>
+      <div class="coming-badge">
+        <i class="fa-solid fa-circle"></i>
+        Dalam Perbaikan
+      </div>
+      <h2>Coming Soon</h2>
+      <p>AI Assistant sedang dalam masa perbaikan untuk memberikan pengalaman yang lebih baik</p>
+    </div>
   </div>
 
-  {{-- INPUT + DISCLAIMER --}}
+  {{-- INPUT (disabled) --}}
   <div id="ai-input-wrap">
     <div id="ai-input-area">
       <textarea
         id="pesan" rows="1"
-        placeholder="Tanya tentang keuangan atau Nexfi..."
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"
+        placeholder="Fitur sedang dalam perbaikan..."
+        disabled
       ></textarea>
-      <button id="send-btn" onclick="kirimAI()" title="Kirim (Enter)">
+      <button id="send-btn" disabled>
         <i class="fa-solid fa-paper-plane"></i>
       </button>
     </div>
     <div id="ai-disclaimer">
       <i class="fa-solid fa-triangle-exclamation"></i>
-      AI NexFi bisa saja membuat kesalahan. Selalu verifikasi informasi keuangan penting.
-      Riwayat chat otomatis dihapus setelah 24 jam.
+      AI NexFi sedang dalam masa perbaikan. Mohon bersabar menunggu pembaruan berikutnya.
     </div>
   </div>
 
 </div>
 
 <script>
-/* ===== STORAGE ===== */
-const STORAGE_KEY = 'nexfi_chat_{{ Auth::id() }}';
-const TTL_MS      = 24 * 60 * 60 * 1000;
-
-function loadHistory() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const obj = JSON.parse(raw);
-    if (Date.now() - obj.ts > TTL_MS) { localStorage.removeItem(STORAGE_KEY); return []; }
-    return obj.msgs || [];
-  } catch(e) { return []; }
-}
-function saveHistory(msgs) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), msgs }));
-}
-
-/* ===== STATE ===== */
-let chatMsgs  = loadHistory();
-let isLoading = false;
-
-/* ===== MODAL ===== */
-function clearChat() {
-  if (chatMsgs.length === 0) return;
-  document.getElementById('modal-overlay').classList.add('show');
-}
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('show');
-}
-function confirmClear() {
-  closeModal();
-  chatMsgs = [];
-  localStorage.removeItem(STORAGE_KEY);
-  renderAll();
-}
-// Klik di luar modal = tutup
-document.getElementById('modal-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-/* ===== GREETING ===== */
-function updateGreeting() {
-  const el = document.getElementById('ai-greeting');
-  if (!el) return;
-  chatMsgs.length > 0 ? el.classList.add('hidden') : el.classList.remove('hidden');
-}
-
-/* ===== HELPERS ===== */
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function fmtTime(ts) {
-  return new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-}
-function fmtDate(ts) {
-  return new Date(ts).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'});
-}
-
-/* ===== RENDER BUBBLE ===== */
-function renderBubble(role, text, ts) {
-  const isUser = role === 'user';
-  const safe   = escHtml(text).replace(/\n/g,'<br>');
-  const icon   = isUser
-    ? `<div class="msg-icon user-ic"><i class="fa-solid fa-user"></i></div>`
-    : `<div class="msg-icon ai-ic"><i class="fa-solid fa-robot"></i></div>`;
-  return `
-    <div class="msg-row ${isUser?'user':'ai'}">
-      ${!isUser ? icon : ''}
-      <div class="msg-col">
-        <div class="msg-bubble">${safe}</div>
-        <div class="msg-time">${fmtTime(ts)}</div>
-      </div>
-      ${isUser ? icon : ''}
-    </div>`;
-}
-
-/* ===== EMPTY HTML ===== */
-function emptyHtml() {
-  const namaEl = document.querySelector('#ai-greeting[data-name]');
-  const nama   = namaEl ? namaEl.dataset.name : '';
-  const greetHtml = nama
-    ? `<div class="es-greeting">
-        <div class="g-icon"><i class="fa-solid fa-hand-point-right"></i></div>
-        <div>Halo, <strong>${escHtml(nama)}</strong>! Tanya apa saja seputar keuangan dan Nexfi.</div>
-       </div>`
-    : '';
-  return `
-    <div id="empty-state">
-      ${greetHtml}
-      <div class="empty-icon"><i class="fa-solid fa-robot"></i></div>
-      <h4>Mulai percakapan</h4>
-      <p>Tanyakan apa saja tentang keuangan atau cara menggunakan NexFi.</p>
-      <div class="chips">
-        <button class="chip" onclick="kirimChip('Berapa saldo saya saat ini?')">
-          <i class="fa-solid fa-wallet"></i> Saldo saya
-        </button>
-        <button class="chip" onclick="kirimChip('Analisa kondisi keuangan saya')">
-          <i class="fa-solid fa-chart-pie"></i> Analisa keuangan
-        </button>
-        <button class="chip" onclick="kirimChip('Berikan tips hemat uang')">
-          <i class="fa-solid fa-lightbulb"></i> Tips hemat
-        </button>
-        <button class="chip" onclick="kirimChip('Cara mencatat pengeluaran di Nexfi')">
-          <i class="fa-solid fa-book-open"></i> Cara pakai Nexfi
-        </button>
-      </div>
-    </div>`;
-}
-
-/* ===== RENDER ALL ===== */
-function renderAll() {
-  const box = document.getElementById('chat-box');
-  if (chatMsgs.length === 0) { box.innerHTML = emptyHtml(); updateGreeting(); return; }
-
-  let html = '', lastDate = '';
-  chatMsgs.forEach(function(m) {
-    const dl = fmtDate(m.ts);
-    if (dl !== lastDate) { html += `<div class="date-sep">${dl}</div>`; lastDate = dl; }
-    html += renderBubble(m.role, m.text, m.ts);
-  });
-  box.innerHTML = html;
-  scrollBottom();
-  updateGreeting();
-}
-
-/* ===== APPEND ===== */
-function appendBubble(role, text, ts) {
-  const box = document.getElementById('chat-box');
-  const emp = document.getElementById('empty-state');
-  if (emp) emp.remove();
-  box.insertAdjacentHTML('beforeend', renderBubble(role, text, ts));
-  scrollBottom();
-}
-
-/* ===== TYPING ===== */
-function showTyping() {
-  document.getElementById('chat-box').insertAdjacentHTML('beforeend', `
-    <div class="typing-row" id="typing-row">
-      <div class="msg-icon ai-ic"><i class="fa-solid fa-robot"></i></div>
-      <div class="typing-bubble">
-        <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
-      </div>
-    </div>`);
-  scrollBottom();
-}
-function hideTyping() { const t=document.getElementById('typing-row'); if(t) t.remove(); }
-
-function scrollBottom() {
-  const b = document.getElementById('chat-box');
-  requestAnimationFrame(function() { b.scrollTop = b.scrollHeight; });
-}
-
-/* ===== CHIP ===== */
-function kirimChip(text) {
-  document.getElementById('pesan').value = text;
-  kirimAI();
-}
-
-/* ===== KEY / RESIZE ===== */
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); kirimAI(); }
-}
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
-}
-
-/* ===== SEND ===== */
-async function kirimAI() {
-  if (isLoading) return;
-  const input = document.getElementById('pesan');
-  const pesan = input.value.trim();
-  if (!pesan) return;
-
-  isLoading = true;
-  document.getElementById('send-btn').disabled = true;
-  input.value = ''; input.style.height = 'auto';
-
-  const ts = Date.now();
-  chatMsgs.push({ role:'user', text:pesan, ts });
-  appendBubble('user', pesan, ts);
-  updateGreeting();
-  showTyping();
-
-  try {
-    const res = await fetch('/ai-nexfi', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-      },
-      body: JSON.stringify({ message: pesan })
-    });
-    const data = await res.json();
-    hideTyping();
-
-    const jawaban = data?.choices?.[0]?.message?.content || 'Maaf, tidak ada respons dari AI.';
-    const ats = Date.now();
-    chatMsgs.push({ role:'ai', text:jawaban, ts:ats });
-    appendBubble('ai', jawaban, ats);
-    saveHistory(chatMsgs);
-
-  } catch(err) {
-    hideTyping();
-    const ets = Date.now();
-    const etx = 'Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi ya!';
-    chatMsgs.push({ role:'ai', text:etx, ts:ets });
-    appendBubble('ai', etx, ets);
-    saveHistory(chatMsgs);
-  }
-
-  isLoading = false;
-  document.getElementById('send-btn').disabled = false;
-  input.focus();
-}
-
-/* ===== INIT ===== */
-(function(){
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const obj = JSON.parse(raw);
-      if (Date.now() - obj.ts > TTL_MS) { localStorage.removeItem(STORAGE_KEY); chatMsgs = []; }
-    }
-  } catch(e) {}
-  renderAll();
-})();
+  // Biar ada efek smooth
+  console.log('AI NexFi - Coming Soon! 🚀');
 </script>
 
 @endsection

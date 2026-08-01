@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Transaction;
@@ -29,39 +30,62 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        // Debug: cek apa yang dikirim
+        // dd($request->all(), $request->file('photo'));
+
         $request->validate([
             'name'                 => 'required|string|max:255',
             'username'             => ['required','string','max:255', Rule::unique('users')->ignore($user->id)],
             'email'                => ['required','email','max:255', Rule::unique('users')->ignore($user->id)],
             'no_telp'              => 'nullable|string|max:20',
-            'photo'                => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo'                => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'password'             => 'nullable|string|min:8|confirmed',
             'show_on_leaderboard'  => 'nullable|boolean',
         ]);
 
+        // PROSES UPLOAD FOTO - PERBAIKAN
         if ($request->hasFile('photo')) {
-            $photo     = $request->file('photo');
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('assets_public'), $photoName);
+            // Hapus foto lama jika ada
             if ($user->photo && file_exists(public_path('assets_public/' . $user->photo))) {
                 unlink(public_path('assets_public/' . $user->photo));
             }
+            
+            // Upload foto baru
+            $photo = $request->file('photo');
+            $photoName = time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $photo->getClientOriginalName());
+            
+            // Pastikan folder exists
+            if (!file_exists(public_path('assets_public'))) {
+                mkdir(public_path('assets_public'), 0755, true);
+            }
+            
+            $photo->move(public_path('assets_public'), $photoName);
+            
+            // Update field photo di database
             $user->photo = $photoName;
         }
 
+        // Update data user
         $user->name                = $request->name;
         $user->username            = $request->username;
         $user->email               = $request->email;
         $user->no_telp             = $request->no_telp;
         $user->show_on_leaderboard = $request->boolean('show_on_leaderboard');
 
+        // Update password jika diisi
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
-        $user->save();
+        // Simpan perubahan
+        $updated = $user->save();
 
-        return redirect()->route('pengguna.profile')->with('success', 'Profile berhasil diperbarui!');
+        // Debug: cek apakah berhasil tersimpan
+        // dd($updated, $user->fresh());
+
+        return redirect()
+            ->route('pengguna.profile')
+            ->with('success', 'Profile berhasil diperbarui!');
     }
 
     // PUBLIC PROFILE

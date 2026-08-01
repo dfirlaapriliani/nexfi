@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('show_on_leaderboard')->default(true)->after('photo');
+            $table->boolean('show_on_leaderboard')->default(true);
         });
     }
 

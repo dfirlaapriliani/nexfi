@@ -68,24 +68,30 @@
         </a>
 
         <a href="{{ route('pengguna.ai.index') }}" class="snav {{ request()->routeIs('pengguna.ai.*') ? 'snav-on' : '' }}">
-        <span class="sicon {{ request()->routeIs('pengguna.ai.*') ? 'sicon-on' : '' }}">
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <rect x="3" y="8" width="18" height="13" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v6M8 2h8"/>
-                <circle cx="9" cy="14" r="1.5" fill="currentColor" stroke="none"/>
-                <circle cx="15" cy="14" r="1.5" fill="currentColor" stroke="none"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13H1M23 13h-2"/>
-            </svg>
-        </span>
+            <span class="sicon {{ request()->routeIs('pengguna.ai.*') ? 'sicon-on' : '' }}">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <rect x="3" y="8" width="18" height="13" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v6M8 2h8"/>
+                    <circle cx="9" cy="14" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="15" cy="14" r="1.5" fill="currentColor" stroke="none"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13H1M23 13h-2"/>
+                </svg>
+            </span>
+            <span class="slabel">AI Nexfi</span>
+            @if(request()->routeIs('pengguna.ai.*'))<span class="spip"></span>@endif
+        </a>
 
-        <span class="slabel">AI Nexfi</span>
-
-        @if(request()->routeIs('pengguna.ai.*'))
-            <span class="spip"></span>
-        @endif
-
-    </a>
+        {{-- ── BLOG GROWFIN (TAMBAHAN BARU) ── --}}
+        <a href="{{ route('pengguna.blog.index') }}" class="snav {{ request()->routeIs('pengguna.blog.*') ? 'snav-on' : '' }}">
+            <span class="sicon {{ request()->routeIs('pengguna.blog.*') ? 'sicon-on' : '' }}">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                </svg>
+            </span>
+            <span class="slabel">Blog GrowFin</span>
+            @if(request()->routeIs('pengguna.blog.*'))<span class="spip"></span>@endif
+        </a>
     </nav>
 
     {{-- ── LOGOUT ── --}}
