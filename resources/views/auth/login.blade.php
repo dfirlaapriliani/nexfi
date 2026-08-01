@@ -160,7 +160,6 @@
                             <div>
                                 <div class="flex items-center justify-between mb-1 sm:mb-2">
                                     <label class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-white/35">Password</label>
-                                    <a href="#" class="text-[10px] sm:text-xs font-semibold text-[#6c63ff] opacity-85 hover:opacity-100 hover:underline">Lupa?</a>
                                 </div>
                                 <div class="relative">
                                     <input type="password" 
