@@ -156,7 +156,7 @@
 
                         <!-- Kolom Kanan -->
                         <div class="space-y-4">
-                            <!-- Password -->gi
+                            <!-- Password -->
                             <div>
                                 <div class="flex items-center justify-between mb-1 sm:mb-2">
                                     <label class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-white/35">Password</label>
