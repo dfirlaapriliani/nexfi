@@ -191,36 +191,47 @@
     </div>
 
     {{-- ══ BANNER: Akses GrowFin ══ --}}
-    <a href="https://mygrowfin.id" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       class="banner-growfin block rounded-2xl sm:rounded-[16px] p-3 sm:p-3.5 md:p-4 lg:p-5 border transition-all no-underline relative z-10 group">
-        
-        <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 md:gap-4">
-            <div class="flex items-center gap-2.5 sm:gap-3 md:gap-4 w-full sm:w-auto">
-                <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                     style="background: rgba(108, 99, 255, 0.2); border: 1px solid rgba(108, 99, 255, 0.3);">
-                    <i class="fa-solid fa-graduation-cap text-acc/70 text-sm sm:text-base md:text-lg lg:text-xl"></i>
-                </div>
-                <div class="text-center sm:text-left">
-                    <h3 class="text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] font-extrabold text-white">
-                        Akses <span style="color: #8b9cff; text-shadow: 0 0 30px rgba(108, 99, 255, 0.3);">GrowFin</span> Lewat Sini
-                    </h3>
-                    <p class="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] text-white/50 hidden xs:block">
-                        Temukan ribuan artikel edukasi finansial untuk masa depanmu
-                    </p>
-                </div>
+<a href="https://mygrowfin.id"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="banner-growfin block rounded-2xl sm:rounded-[16px] p-3 sm:p-3.5 md:p-4 lg:p-5 border transition-all no-underline relative z-10 group">
+
+    <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 md:gap-4">
+        <div class="flex items-center gap-2.5 sm:gap-3 md:gap-4 w-full sm:w-auto">
+
+            {{-- Logo GrowFin --}}
+            <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0"
+                 style="background: rgba(108, 99, 255, 0.2); border: 1px solid rgba(108, 99, 255, 0.3);">
+                <img
+                    src="{{ asset('assets_public/growfin.jpeg') }}"
+                    alt="GrowFin"
+                    class="w-full h-full object-contain"
+                >
             </div>
-            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 w-full sm:w-auto justify-center sm:justify-end">
-                <span class="text-[9px] sm:text-[10px] md:text-[11px] lg:text-[12px] font-bold text-white/40 hidden sm:inline">mygrowfin.id</span>
-                <span class="px-3 sm:px-3.5 md:px-4 py-1.5 sm:py-1.5 md:py-2 rounded-lg sm:rounded-[10px] text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] font-bold flex items-center gap-1.5 sm:gap-2 transition-all group-hover:scale-105 w-full sm:w-auto justify-center"
-                      style="background: linear-gradient(135deg, #6c63ff, #9b59f5); color: white; box-shadow: 0 0 30px rgba(108, 99, 255, 0.25);">
-                    Kunjungi
-                    <i class="fa-solid fa-arrow-right banner-arrow text-[9px] sm:text-[10px] md:text-[11px]"></i>
-                </span>
+
+            <div class="text-center sm:text-left">
+                <h3 class="text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] font-extrabold text-white">
+                    Akses <span style="color: #8b9cff; text-shadow: 0 0 30px rgba(108, 99, 255, 0.3);">GrowFin</span> Lewat Sini
+                </h3>
+                <p class="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] text-white/50 hidden xs:block">
+                    Temukan ribuan artikel edukasi finansial untuk masa depanmu
+                </p>
             </div>
         </div>
-    </a>
+
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 w-full sm:w-auto justify-center sm:justify-end">
+            <span class="text-[9px] sm:text-[10px] md:text-[11px] lg:text-[12px] font-bold text-white/40 hidden sm:inline">
+                mygrowfin.id
+            </span>
+
+            <span class="px-3 sm:px-3.5 md:px-4 py-1.5 sm:py-1.5 md:py-2 rounded-lg sm:rounded-[10px] text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] font-bold flex items-center gap-1.5 sm:gap-2 transition-all group-hover:scale-105 w-full sm:w-auto justify-center"
+                  style="background: linear-gradient(135deg, #6c63ff, #9b59f5); color: white; box-shadow: 0 0 30px rgba(108, 99, 255, 0.25);">
+                Kunjungi
+                <i class="fa-solid fa-arrow-right banner-arrow text-[9px] sm:text-[10px] md:text-[11px]"></i>
+            </span>
+        </div>
+    </div>
+</a>
 
     {{-- ══ FILTER KATEGORI ══ --}}
     <div class="filter-scroll overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
